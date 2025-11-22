@@ -117,7 +117,7 @@ paths:
   /health:
     get:
       tags:
-      - "[Team Workspace]"
+      - "🏠[Team Workspace]"
       summary: 팀 협업을 위한 공용 정보
       description: |
         ### TEAM 공용 공간
