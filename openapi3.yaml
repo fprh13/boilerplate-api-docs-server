@@ -181,7 +181,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users486549215"
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 서버_상태_체크_2xx:
                   value: |-
@@ -200,38 +200,38 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: "#/components/schemas/UpdateUser"
+              $ref: "#/components/schemas/users219138433"
             examples:
-              회원_정보_업데이트_2xx:
-                value: "{\"name\":\"이름바꾸기\"}"
               회원_정보_업데이트_4xx_요청_데이터_유효성_검사_실패:
                 value: "{\"name\":\"\"}"
+              회원_정보_업데이트_2xx:
+                value: "{\"name\":\"이름바꾸기\"}"
       responses:
-        "200":
-          description: "200"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/users486549215"
-              examples:
-                회원_정보_업데이트_2xx:
-                  value: |-
-                    {
-                      "message" : "OK",
-                      "data" : 1
-                    }
         "400":
           description: "400"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users486549215"
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 회원_정보_업데이트_4xx_요청_데이터_유효성_검사_실패:
                   value: |-
                     {
                       "message" : "name의 필드 값 유효하지 않습니다.",
                       "data" : null
+                    }
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users-password486549215"
+              examples:
+                회원_정보_업데이트_2xx:
+                  value: |-
+                    {
+                      "message" : "OK",
+                      "data" : 1
                     }
     post:
       tags:
@@ -244,65 +244,65 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: "#/components/schemas/RegisterUser"
+              $ref: "#/components/schemas/users-291555662"
             examples:
-              회원가입_2xx:
-                value: "{\"loginId\":\"test1\",\"password\":\"test1@1234\",\"email\"\
-                  :\"test1@gmail.com\",\"name\":\"홍길동\"}"
-              회원가입_4xx_아이디_중복:
-                value: "{\"loginId\":\"test1\",\"password\":\"test1@1234\",\"email\"\
-                  :\"test1@gmail.com\",\"name\":\"홍길동\"}"
               회원가입_4xx_요청_데이터_유효성_검사_실패:
                 value: "{\"loginId\":\"test1\",\"password\":\"1234\",\"email\":\"\
                   test1@gmail.com\",\"name\":\"홍길동\"}"
               회원가입_4xx_이메일_중복:
                 value: "{\"loginId\":\"test1\",\"password\":\"test1@1234\",\"email\"\
                   :\"test1@gmail.com\",\"name\":\"홍길동\"}"
+              회원가입_2xx:
+                value: "{\"loginId\":\"test1\",\"password\":\"test1@1234\",\"email\"\
+                  :\"test1@gmail.com\",\"name\":\"홍길동\"}"
+              회원가입_4xx_아이디_중복:
+                value: "{\"loginId\":\"test1\",\"password\":\"test1@1234\",\"email\"\
+                  :\"test1@gmail.com\",\"name\":\"홍길동\"}"
       responses:
-        "200":
-          description: "200"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/users486549215"
-              examples:
-                회원가입_2xx:
-                  value: |-
-                    {
-                      "message" : "OK",
-                      "data" : 0
-                    }
-        "409":
-          description: "409"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/users486549215"
-              examples:
-                회원가입_4xx_아이디_중복:
-                  value: |-
-                    {
-                      "message" : "이미 사용 중인 아이디입니다.",
-                      "data" : null
-                    }
-                회원가입_4xx_이메일_중복:
-                  value: |-
-                    {
-                      "message" : "이미 사용 중인 이메일입니다.",
-                      "data" : null
-                    }
         "400":
           description: "400"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users486549215"
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 회원가입_4xx_요청_데이터_유효성_검사_실패:
                   value: |-
                     {
                       "message" : "password의 필드 값 유효하지 않습니다.",
                       "data" : null
+                    }
+        "409":
+          description: "409"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users-password486549215"
+              examples:
+                회원가입_4xx_이메일_중복:
+                  value: |-
+                    {
+                      "message" : "이미 사용 중인 이메일입니다.",
+                      "data" : null
+                    }
+                회원가입_4xx_아이디_중복:
+                  value: |-
+                    {
+                      "message" : "이미 사용 중인 아이디입니다.",
+                      "data" : null
+                    }
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users-password486549215"
+              examples:
+                회원가입_2xx:
+                  value: |-
+                    {
+                      "message" : "OK",
+                      "data" : 0
                     }
     delete:
       tags:
@@ -321,7 +321,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users486549215"
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 회원_탈퇴_2xx:
                   value: |-
@@ -356,7 +356,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users486549215"
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 비밀번호_업데이트_2xx:
                   value: |-
@@ -369,7 +369,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users486549215"
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 비밀번호_업데이트_4xx_요청_데이터_유효성_검사_실패:
                   value: |-
@@ -396,7 +396,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users486549215"
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 프로필_조회_2xx:
                   value: |-
@@ -428,7 +428,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users486549215"
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 공개_프로필_조회_4xx_notfound:
                   value: |-
@@ -441,7 +441,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users486549215"
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 공개_프로필_조회_2xx:
                   value: |-
@@ -473,7 +473,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users486549215"
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 이메일_중복_체크_4xx_email_중복:
                   value: |-
@@ -486,7 +486,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users486549215"
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 이메일_중복_체크_2xx:
                   value: |-
@@ -515,7 +515,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users486549215"
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 아이디_중복_체크_2xx:
                   value: |-
@@ -528,7 +528,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users486549215"
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 아이디_중복_체크_4xx_loing-id_중복:
                   value: |-
@@ -538,27 +538,6 @@ paths:
                     }
 components:
   schemas:
-    RegisterUser:
-      title: RegisterUser
-      required:
-      - email
-      - loginId
-      - name
-      - password
-      type: object
-      properties:
-        password:
-          type: string
-          description: 비밀번호는 특수문자를 포함한 영문과 숫자 8자리 이상입니다.
-        loginId:
-          type: string
-          description: 아이디는 영문 4자리 이상입니다.
-        name:
-          type: string
-          description: 사용자 이름입니다.
-        email:
-          type: string
-          description: 이메일 형식을 지켜주세요.
     auths-reissue515442717:
       required:
       - data
@@ -594,8 +573,27 @@ components:
     LoginRequestDto:
       title: LoginRequestDto
       type: object
-    UpdateUser:
-      title: UpdateUser
+    users-291555662:
+      required:
+      - email
+      - loginId
+      - name
+      - password
+      type: object
+      properties:
+        password:
+          type: string
+          description: 비밀번호는 특수문자를 포함한 영문과 숫자 8자리 이상입니다.
+        loginId:
+          type: string
+          description: 아이디는 영문 4자리 이상입니다.
+        name:
+          type: string
+          description: 사용자 이름입니다.
+        email:
+          type: string
+          description: 이메일 형식을 지켜주세요.
+    users219138433:
       required:
       - name
       type: object
@@ -603,7 +601,7 @@ components:
         name:
           type: string
           description: 사용자 이름입니다.
-    users486549215:
+    users-password486549215:
       type: object
   securitySchemes:
     JWT:
