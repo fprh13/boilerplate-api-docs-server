@@ -14,14 +14,14 @@ paths:
       - Auth
       summary: 로그인
       description: '- 로그인 입니다.'
-      operationId: api_로그인
+      operationId: 로그인_2xx
       requestBody:
         content:
           application/json;charset=UTF-8:
             schema:
               $ref: "#/components/schemas/LoginRequestDto"
             examples:
-              api_로그인:
+              로그인_2xx:
                 value: "{\"loginId\":\"test1\",\"password\":\"test1@1234\"}"
       responses:
         "200":
@@ -40,7 +40,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/LoginResponseDto"
               examples:
-                api_로그인:
+                로그인_2xx:
                   value: |-
                     {
                       "message" : "OK",
@@ -52,7 +52,7 @@ paths:
       - Auth
       summary: 로그아웃
       description: '- 로그아웃 입니다.'
-      operationId: api_로그아웃
+      operationId: 로그아웃_2xx
       parameters:
       - name: Authorization
         in: header
@@ -74,7 +74,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/auths-reissue515442717"
               examples:
-                api_로그아웃:
+                로그아웃_2xx:
                   value: |-
                     {
                       "message" : "OK",
@@ -86,7 +86,7 @@ paths:
       - Auth
       summary: 재발급
       description: '- 재발급 입니다.'
-      operationId: api_재발급
+      operationId: 재발급_2xx
       parameters:
       - name: Authorization
         in: header
@@ -108,7 +108,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/auths-reissue515442717"
               examples:
-                api_재발급:
+                재발급_2xx:
                   value: |-
                     {
                       "message" : "OK",
