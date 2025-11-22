@@ -1,0 +1,614 @@
+openapi: 3.0.1
+info:
+  title: Boiler Plate API
+  description: Boiler Plate API
+  version: 0.0.1
+servers:
+- url: http://localhost:8080
+- url: https://hosting-not-yet
+tags: []
+paths:
+  /auths/login:
+    post:
+      tags:
+      - Auth
+      summary: 로그인
+      description: '- 로그인 입니다.'
+      operationId: api_로그인
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: "#/components/schemas/LoginRequestDto"
+            examples:
+              api_로그인:
+                value: "{\"loginId\":\"test1\",\"password\":\"test1@1234\"}"
+      responses:
+        "200":
+          description: "200"
+          headers:
+            Authorization:
+              description: 엑세스 토큰
+              schema:
+                type: string
+            Set-Cookie:
+              description: 재발급 토큰
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponseDto"
+              examples:
+                api_로그인:
+                  value: |-
+                    {
+                      "message" : "OK",
+                      "data" : null
+                    }
+  /auths/logout:
+    post:
+      tags:
+      - Auth
+      summary: 로그아웃
+      description: '- 로그아웃 입니다.'
+      operationId: api_로그아웃
+      parameters:
+      - name: Authorization
+        in: header
+        description: 엑세스 토큰
+        required: true
+        schema:
+          type: string
+        example: accessabcdefghijklmnopqrstuvwxyz
+      responses:
+        "200":
+          description: "200"
+          headers:
+            Set-Cookie:
+              description: 쿠키 무효화
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/auths-reissue515442717"
+              examples:
+                api_로그아웃:
+                  value: |-
+                    {
+                      "message" : "OK",
+                      "data" : null
+                    }
+  /auths/reissue:
+    post:
+      tags:
+      - Auth
+      summary: 재발급
+      description: '- 재발급 입니다.'
+      operationId: api_재발급
+      parameters:
+      - name: Authorization
+        in: header
+        description: 엑세스 토큰
+        required: true
+        schema:
+          type: string
+        example: accessabcdefghijklmnopqrstuvwxyz
+      responses:
+        "200":
+          description: "200"
+          headers:
+            Authorization:
+              description: 엑세스 토큰
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/auths-reissue515442717"
+              examples:
+                api_재발급:
+                  value: |-
+                    {
+                      "message" : "OK",
+                      "data" : null
+                    }
+  /health:
+    get:
+      tags:
+      - "[Team Workspace]"
+      summary: 팀 협업을 위한 공용 정보
+      description: |
+        ### TEAM 공용 공간
+
+        서버의 기본 상태를 확인하고, API 문서 사용 방식과 공용 링크 및 에러 정의를 제공합니다.
+
+        ---
+
+        ### 🔧 API 문서 사용법
+
+        <details>
+        <summary><strong>View</strong></summary>
+
+        #### 1. 토큰 사용법
+        로그인 후 응답된 JWT 토큰을 복사해주세요.
+
+        1. Swagger 우측 상단의 **Authorize** 버튼을 클릭합니다.
+        2. `value` 입력란에 복사한 토큰(`Bearer {token}` 형식)을 붙여넣고 저장합니다.
+        3. 이제 모든 요청은 해당 JWT가 자동 포함되어 전송됩니다.
+
+        <br>
+
+        #### 2. 요청 서버 변경
+        Swagger 좌측 상단의 **Servers** 항목에서 요청할 서버를 선택할 수 있습니다.
+
+        </details>
+
+        ---
+
+        ### 🔗 링크
+
+        <details>
+        <summary><strong>View</strong></summary>
+
+        - [Github Repository 바로가기](https://github.com/fprh13/boiler-plate-project)
+
+        </details>
+
+        ---
+
+        ### ❗ ERROR 정의
+
+        <details>
+        <summary><strong>View</strong></summary>
+
+        | HttpStatus | 설명 | 해결방법 |
+        |-----------|------|----------|
+        | **400 Bad Request** | 클라이언트 요청 데이터가 잘못된 경우입니다. | 요청 데이터의 유효 값을 확인해주세요. |
+        | **401 Unauthorized** | 인증 정보가 없거나 유효하지 않습니다. | 로그인 후 발급된 JWT를 전송해주세요. |
+        | **403 Forbidden** | 현재 권한으로는 자원에 접근할 수 없습니다.<br>(예: USER 권한이 ADMIN 전용 API 접근 시) | 요청 자원에 맞는 권한으로 요청해주세요. |
+        | **404 Not Found** | 요청한 데이터를 찾을 수 없습니다. | 요청한 ID나 경로가 올바른지 확인해주세요. |
+        | **405 Method Not Allowed** | 지원하지 않는 HTTP 메서드로 요청했습니다. | 지원하는 HTTP Method를 사용해주세요. |
+        | **409 Conflict** | 리소스 충돌(중복 데이터) 발생 | 중복 여부를 확인 후 요청해주세요. |
+        | **500 Internal Server Error** | 서버 내부에서 예상치 못한 오류 발생 | 담당 개발자에게 문의해주세요. 요청한 API와 데이터를 함께 전달하면 도움이 됩니다. |
+
+        </details>
+      operationId: 서버_상태_체크_2xx
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                서버_상태_체크_2xx:
+                  value: |-
+                    {
+                      "message" : "OK",
+                      "data" : null
+                    }
+  /users:
+    put:
+      tags:
+      - User
+      summary: 회원 정보 수정
+      description: "## 회원 정보 수정 기능 \n### 사용법 \n- 필드의 validation을 확인해주세요.\n"
+      operationId: 회원_정보_업데이트_
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: "#/components/schemas/UpdateUser"
+            examples:
+              회원_정보_업데이트_2xx:
+                value: "{\"name\":\"이름바꾸기\"}"
+              회원_정보_업데이트_4xx_요청_데이터_유효성_검사_실패:
+                value: "{\"name\":\"\"}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                회원_정보_업데이트_2xx:
+                  value: |-
+                    {
+                      "message" : "OK",
+                      "data" : 1
+                    }
+        "400":
+          description: "400"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                회원_정보_업데이트_4xx_요청_데이터_유효성_검사_실패:
+                  value: |-
+                    {
+                      "message" : "name의 필드 값 유효하지 않습니다.",
+                      "data" : null
+                    }
+    post:
+      tags:
+      - User
+      summary: 회원 가입
+      description: "## 회원 가입 기능 \n### 사용법 \n- 필드의 validation을 확인해주세요.\n- 아이디와 이메일\
+        \ 중복 체크 완료 후 진행해주세요."
+      operationId: 회원가입_
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: "#/components/schemas/RegisterUser"
+            examples:
+              회원가입_2xx:
+                value: "{\"loginId\":\"test1\",\"password\":\"test1@1234\",\"email\"\
+                  :\"test1@gmail.com\",\"name\":\"홍길동\"}"
+              회원가입_4xx_아이디_중복:
+                value: "{\"loginId\":\"test1\",\"password\":\"test1@1234\",\"email\"\
+                  :\"test1@gmail.com\",\"name\":\"홍길동\"}"
+              회원가입_4xx_요청_데이터_유효성_검사_실패:
+                value: "{\"loginId\":\"test1\",\"password\":\"1234\",\"email\":\"\
+                  test1@gmail.com\",\"name\":\"홍길동\"}"
+              회원가입_4xx_이메일_중복:
+                value: "{\"loginId\":\"test1\",\"password\":\"test1@1234\",\"email\"\
+                  :\"test1@gmail.com\",\"name\":\"홍길동\"}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                회원가입_2xx:
+                  value: |-
+                    {
+                      "message" : "OK",
+                      "data" : 0
+                    }
+        "409":
+          description: "409"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                회원가입_4xx_아이디_중복:
+                  value: |-
+                    {
+                      "message" : "이미 사용 중인 아이디입니다.",
+                      "data" : null
+                    }
+                회원가입_4xx_이메일_중복:
+                  value: |-
+                    {
+                      "message" : "이미 사용 중인 이메일입니다.",
+                      "data" : null
+                    }
+        "400":
+          description: "400"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                회원가입_4xx_요청_데이터_유효성_검사_실패:
+                  value: |-
+                    {
+                      "message" : "password의 필드 값 유효하지 않습니다.",
+                      "data" : null
+                    }
+    delete:
+      tags:
+      - User
+      summary: 회원 탈퇴
+      description: "## 회원 탈퇴 기능 \n### 참고 \n- 서버의 권한 정보 및 클라이언트의 권한 쿠키를 초기화 합니다.\n"
+      operationId: 회원_탈퇴_2xx
+      responses:
+        "200":
+          description: "200"
+          headers:
+            Set-Cookie:
+              description: 쿠키 초기화입니다.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                회원_탈퇴_2xx:
+                  value: |-
+                    {
+                      "message" : "OK",
+                      "data" : null
+                    }
+  /users/password:
+    patch:
+      tags:
+      - User
+      summary: 비밀번호 업데이트
+      description: "## 비밀번호 업데이트 기능 \n### 사용법 \n- 필드의 validation을 확인해주세요.\n"
+      operationId: 비밀번호_업데이트_
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: "#/components/schemas/ChangePassword"
+            examples:
+              비밀번호_업데이트_2xx:
+                value: "{\"password\":\"test1@1234\",\"newPassword\":\"newPassword1234@\"\
+                  }"
+              비밀번호_업데이트_4xx_요청_데이터_유효성_검사_실패:
+                value: "{\"password\":\"test1@1234\",\"newPassword\":\"1234\"}"
+              비밀번호_업데이트_4xx_기존_비밀번호가_올바르지_않음:
+                value: "{\"password\":\"test1@1234\",\"newPassword\":\"newPassword1234@\"\
+                  }"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                비밀번호_업데이트_2xx:
+                  value: |-
+                    {
+                      "message" : "OK",
+                      "data" : null
+                    }
+        "400":
+          description: "400"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                비밀번호_업데이트_4xx_요청_데이터_유효성_검사_실패:
+                  value: |-
+                    {
+                      "message" : "newPassword의 필드 값 유효하지 않습니다.",
+                      "data" : null
+                    }
+                비밀번호_업데이트_4xx_기존_비밀번호가_올바르지_않음:
+                  value: |-
+                    {
+                      "message" : "비밀번호가 일치하지 않습니다.",
+                      "data" : null
+                    }
+  /users/profile:
+    get:
+      tags:
+      - User
+      summary: 프로필 조회
+      description: 프로필 조회
+      operationId: 프로필_조회_2xx
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                프로필_조회_2xx:
+                  value: |-
+                    {
+                      "message" : "OK",
+                      "data" : {
+                        "loginId" : "test1",
+                        "email" : "test1@gmail.com",
+                        "name" : "홍길동"
+                      }
+                    }
+  /users/{userId}:
+    get:
+      tags:
+      - User
+      summary: 공개 프로필 조회
+      description: 공개 프로필 조회
+      operationId: 공개_프로필_조회_
+      parameters:
+      - name: userId
+        in: path
+        description: ""
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: "404"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                공개_프로필_조회_4xx_notfound:
+                  value: |-
+                    {
+                      "message" : "User을(를) 찾을 수 없습니다.",
+                      "data" : null
+                    }
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                공개_프로필_조회_2xx:
+                  value: |-
+                    {
+                      "message" : "OK",
+                      "data" : {
+                        "email" : "test1@gmail.com",
+                        "name" : "홍길동"
+                      }
+                    }
+  /users/email/exists:
+    get:
+      tags:
+      - User
+      summary: 이메일 중복 체크
+      description: "## 이메일 중복 체크 기능 \n### 사용법 \n- 이메일을 쿼리 파라미터로 전송합니다.\n- 200응답이라면\
+        \ 사용 가능합니다."
+      operationId: 이메일_중복_체크_
+      parameters:
+      - name: email
+        in: query
+        description: 검증 대상 이메일
+        required: true
+        schema:
+          type: string
+      responses:
+        "409":
+          description: "409"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                이메일_중복_체크_4xx_email_중복:
+                  value: |-
+                    {
+                      "message" : "이미 사용 중인 이메일입니다.",
+                      "data" : null
+                    }
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                이메일_중복_체크_2xx:
+                  value: |-
+                    {
+                      "message" : "OK",
+                      "data" : null
+                    }
+  /users/login-id/exists:
+    get:
+      tags:
+      - User
+      summary: 아이디 중복 체크
+      description: "## 아이디 중복 체크 기능 \n### 사용법 \n- 아이디를 쿼리 파라미터로 전송합니다.\n- 200응답이라면\
+        \ 사용 가능합니다."
+      operationId: 아이디_중복_체크_
+      parameters:
+      - name: loginId
+        in: query
+        description: 검증 대상 아이디
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                아이디_중복_체크_2xx:
+                  value: |-
+                    {
+                      "message" : "OK",
+                      "data" : null
+                    }
+        "409":
+          description: "409"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users486549215"
+              examples:
+                아이디_중복_체크_4xx_loing-id_중복:
+                  value: |-
+                    {
+                      "message" : "이미 사용 중인 아이디입니다.",
+                      "data" : null
+                    }
+components:
+  schemas:
+    RegisterUser:
+      title: RegisterUser
+      required:
+      - email
+      - loginId
+      - name
+      - password
+      type: object
+      properties:
+        password:
+          type: string
+          description: 비밀번호는 특수문자를 포함한 영문과 숫자 8자리 이상입니다.
+        loginId:
+          type: string
+          description: 아이디는 영문 4자리 이상입니다.
+        name:
+          type: string
+          description: 사용자 이름입니다.
+        email:
+          type: string
+          description: 이메일 형식을 지켜주세요.
+    auths-reissue515442717:
+      required:
+      - data
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          description: 메세지
+    LoginResponseDto:
+      title: LoginResponseDto
+      required:
+      - data
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          description: 메세지
+    ChangePassword:
+      title: ChangePassword
+      required:
+      - newPassword
+      - password
+      type: object
+      properties:
+        password:
+          type: string
+          description: 기존 비밀번호입니다.
+        newPassword:
+          type: string
+          description: 새로운 비밀번호입니다.
+    LoginRequestDto:
+      title: LoginRequestDto
+      type: object
+    UpdateUser:
+      title: UpdateUser
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: 사용자 이름입니다.
+    users486549215:
+      type: object
+  securitySchemes:
+    JWT:
+      type: apiKey
+      name: Authorization
+      in: header
+security:
+  - JWT: []  
