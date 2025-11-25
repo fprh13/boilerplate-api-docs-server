@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Boiler Plate API
   description: Boiler Plate API
-  version: 0.0.1
+  version: 2025.11.25 19:01
 servers:
 - url: http://localhost:8080
 - url: https://hosting-not-yet
@@ -22,7 +22,7 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: "#/components/schemas/auth-login134442792"
+              $ref: "#/components/schemas/AuthenticateUser"
             examples:
               로그인_4xx_비밀번호가_올바르지_않음:
                 value: "{\"loginId\":\"test1\",\"password\":\"wrong1234@\"}"
@@ -38,7 +38,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiErrorResponse"
               examples:
                 로그인_4xx_비밀번호가_올바르지_않음:
                   value: |-
@@ -60,10 +60,19 @@ paths:
                     }
         "200":
           description: "200"
+          headers:
+            Authorization:
+              description: 엑세스 토큰입니다.
+              schema:
+                type: string
+            Set-Cookie:
+              description: 재발급 토큰 쿠키입니다.
+              schema:
+                type: string
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiResponse"
               examples:
                 로그인_2xx:
                   value: |-
@@ -81,10 +90,15 @@ paths:
       responses:
         "200":
           description: "200"
+          headers:
+            Set-Cookie:
+              description: 초기화 쿠키 입니다.
+              schema:
+                type: string
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiResponse"
               examples:
                 로그아웃_2xx:
                   value: |-
@@ -106,7 +120,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiErrorResponse"
               examples:
                 토큰_재발급_4xx_재발급_토큰_쿠키가_전송되지_않음:
                   value: |-
@@ -128,10 +142,15 @@ paths:
                     }
         "200":
           description: "200"
+          headers:
+            Authorization:
+              description: 새로운 엑세스 토큰입니다.
+              schema:
+                type: string
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiResponse"
               examples:
                 재발급_2xx:
                   value: |-
@@ -206,7 +225,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiResponse"
               examples:
                 서버_상태_체크_2xx:
                   value: |-
@@ -225,7 +244,7 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: "#/components/schemas/users219138433"
+              $ref: "#/components/schemas/UpdateUser"
             examples:
               회원_정보_업데이트_4xx_요청_데이터_유효성_검사_실패:
                 value: "{\"name\":\"\"}"
@@ -237,7 +256,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiErrorResponse"
               examples:
                 회원_정보_업데이트_4xx_요청_데이터_유효성_검사_실패:
                   value: |-
@@ -250,7 +269,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiResponse"
               examples:
                 회원_정보_업데이트_2xx:
                   value: |-
@@ -269,7 +288,7 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: "#/components/schemas/users-291555662"
+              $ref: "#/components/schemas/RegisterUser"
             examples:
               회원가입_4xx_요청_데이터_유효성_검사_실패:
                 value: "{\"loginId\":\"test1\",\"password\":\"1234\",\"email\":\"\
@@ -289,7 +308,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiErrorResponse"
               examples:
                 회원가입_4xx_요청_데이터_유효성_검사_실패:
                   value: |-
@@ -302,7 +321,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiErrorResponse"
               examples:
                 회원가입_4xx_이메일_중복:
                   value: |-
@@ -321,7 +340,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiResponse"
               examples:
                 회원가입_2xx:
                   value: |-
@@ -340,13 +359,13 @@ paths:
           description: "200"
           headers:
             Set-Cookie:
-              description: 쿠키 초기화입니다.
+              description: 초기화 쿠키 입니다.
               schema:
                 type: string
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiResponse"
               examples:
                 회원_탈퇴_2xx:
                   value: |-
@@ -381,7 +400,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiResponse"
               examples:
                 비밀번호_업데이트_2xx:
                   value: |-
@@ -394,7 +413,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiErrorResponse"
               examples:
                 비밀번호_업데이트_4xx_요청_데이터_유효성_검사_실패:
                   value: |-
@@ -421,7 +440,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ProfileInfo"
               examples:
                 프로필_조회_2xx:
                   value: |-
@@ -453,7 +472,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiErrorResponse"
               examples:
                 공개_프로필_조회_4xx_notfound:
                   value: |-
@@ -466,7 +485,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/PublicProfileInfo"
               examples:
                 공개_프로필_조회_2xx:
                   value: |-
@@ -498,7 +517,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiErrorResponse"
               examples:
                 이메일_중복_체크_4xx_email_중복:
                   value: |-
@@ -511,7 +530,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiResponse"
               examples:
                 이메일_중복_체크_2xx:
                   value: |-
@@ -540,7 +559,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiResponse"
               examples:
                 아이디_중복_체크_2xx:
                   value: |-
@@ -553,7 +572,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/users-password486549215"
+                $ref: "#/components/schemas/ApiErrorResponse"
               examples:
                 아이디_중복_체크_4xx_loing-id_중복:
                   value: |-
@@ -563,32 +582,8 @@ paths:
                     }
 components:
   schemas:
-    ChangePassword:
-      title: ChangePassword
-      required:
-      - newPassword
-      - password
-      type: object
-      properties:
-        password:
-          type: string
-          description: 기존 비밀번호입니다.
-        newPassword:
-          type: string
-          description: 새로운 비밀번호입니다.
-    auth-login134442792:
-      required:
-      - loginId
-      - password
-      type: object
-      properties:
-        password:
-          type: string
-          description: 비밀번호는 특수문자를 포함한 영문과 숫자 8자리 이상입니다.
-        loginId:
-          type: string
-          description: 아이디는 영문 4자리 이상입니다.
-    users-291555662:
+    RegisterUser:
+      title: RegisterUser
       required:
       - email
       - loginId
@@ -608,7 +603,80 @@ components:
         email:
           type: string
           description: 이메일 형식을 지켜주세요.
-    users219138433:
+    ProfileInfo:
+      title: ProfileInfo
+      required:
+      - message
+      type: object
+      properties:
+        data:
+          required:
+          - email
+          - loginId
+          - name
+          type: object
+          properties:
+            loginId:
+              type: string
+              description: 사용자 아이디입니다.
+            name:
+              type: string
+              description: 사용자 이름입니다.
+            email:
+              type: string
+              description: 사용자 이메일입니다.
+        message:
+          type: string
+          description: 성공 응답 메세지입니다.
+    PublicProfileInfo:
+      title: PublicProfileInfo
+      required:
+      - message
+      type: object
+      properties:
+        data:
+          required:
+          - email
+          - name
+          type: object
+          properties:
+            name:
+              type: string
+              description: 사용자 이름입니다.
+            email:
+              type: string
+              description: 사용자 이메일입니다.
+        message:
+          type: string
+          description: 성공 응답 메세지입니다.
+    AuthenticateUser:
+      title: AuthenticateUser
+      required:
+      - loginId
+      - password
+      type: object
+      properties:
+        password:
+          type: string
+          description: 비밀번호는 특수문자를 포함한 영문과 숫자 8자리 이상입니다.
+        loginId:
+          type: string
+          description: 아이디는 영문 4자리 이상입니다.
+    ChangePassword:
+      title: ChangePassword
+      required:
+      - newPassword
+      - password
+      type: object
+      properties:
+        password:
+          type: string
+          description: 기존 비밀번호입니다.
+        newPassword:
+          type: string
+          description: 새로운 비밀번호입니다.
+    UpdateUser:
+      title: UpdateUser
       required:
       - name
       type: object
@@ -616,7 +684,11 @@ components:
         name:
           type: string
           description: 사용자 이름입니다.
-    users-password486549215:
+    ApiErrorResponse:
+      title: ApiErrorResponse
+      type: object
+    ApiResponse:
+      title: ApiResponse
       type: object
   securitySchemes:
     JWT:
