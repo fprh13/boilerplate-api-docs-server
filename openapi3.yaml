@@ -8,37 +8,62 @@ servers:
 - url: https://hosting-not-yet
 tags: []
 paths:
-  /auths/login:
+  /auth/login:
     post:
       tags:
       - Auth
       summary: 로그인
-      description: '- 로그인 입니다.'
-      operationId: 로그인_2xx
+      description: "## 로그인 기능\n### 사용법 \n- 필드의 validation을 확인해주세요.\n- accessToken은\
+        \ Authorization 헤더로 전송됩니다.\n- refreshToken은 쿠키로 전송되어 브라우저에 삽입됩니다.\n### 필독\
+        \ \n- accessToken이란? 권한이 필요한 API에 함께 보내야되는 인증 토큰입니다.\n- refreshToken이란? accessToken이\
+        \ 만료되어 새로 발급받아야할 때 사용되는 토큰입니다.\n"
+      operationId: 로그인_
       requestBody:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: "#/components/schemas/LoginRequestDto"
+              $ref: "#/components/schemas/auth-login134442792"
             examples:
+              로그인_4xx_비밀번호가_올바르지_않음:
+                value: "{\"loginId\":\"test1\",\"password\":\"wrong1234@\"}"
+              로그인_4xx_아이디_존재하지_않음:
+                value: "{\"loginId\":\"test1\",\"password\":\"test1@1234\"}"
+              로그인_4xx_요청_데이터_유효성_검사_실패:
+                value: "{\"loginId\":\"test1\",\"password\":\"1234\"}"
               로그인_2xx:
                 value: "{\"loginId\":\"test1\",\"password\":\"test1@1234\"}"
       responses:
-        "200":
-          description: "200"
-          headers:
-            Authorization:
-              description: 엑세스 토큰
-              schema:
-                type: string
-            Set-Cookie:
-              description: 재발급 토큰
-              schema:
-                type: string
+        "400":
+          description: "400"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/LoginResponseDto"
+                $ref: "#/components/schemas/users-password486549215"
+              examples:
+                로그인_4xx_비밀번호가_올바르지_않음:
+                  value: |-
+                    {
+                      "message" : "아이디 혹은 비밀번호가 일치하지 않습니다.",
+                      "data" : null
+                    }
+                로그인_4xx_아이디_존재하지_않음:
+                  value: |-
+                    {
+                      "message" : "아이디 혹은 비밀번호가 일치하지 않습니다.",
+                      "data" : null
+                    }
+                로그인_4xx_요청_데이터_유효성_검사_실패:
+                  value: |-
+                    {
+                      "message" : "password의 필드 값 유효하지 않습니다.",
+                      "data" : null
+                    }
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 로그인_2xx:
                   value: |-
@@ -46,33 +71,20 @@ paths:
                       "message" : "OK",
                       "data" : null
                     }
-  /auths/logout:
+  /auth/logout:
     post:
       tags:
       - Auth
       summary: 로그아웃
-      description: '- 로그아웃 입니다.'
+      description: '- 로그아웃 입니다. 브라우저 쿠키를 초기화 합니다.'
       operationId: 로그아웃_2xx
-      parameters:
-      - name: Authorization
-        in: header
-        description: 엑세스 토큰
-        required: true
-        schema:
-          type: string
-        example: accessabcdefghijklmnopqrstuvwxyz
       responses:
         "200":
           description: "200"
-          headers:
-            Set-Cookie:
-              description: 쿠키 무효화
-              schema:
-                type: string
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/auths-reissue515442717"
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 로그아웃_2xx:
                   value: |-
@@ -80,33 +92,46 @@ paths:
                       "message" : "OK",
                       "data" : null
                     }
-  /auths/reissue:
+  /auth/reissue:
     post:
       tags:
       - Auth
       summary: 재발급
-      description: '- 재발급 입니다.'
-      operationId: 재발급_2xx
-      parameters:
-      - name: Authorization
-        in: header
-        description: 엑세스 토큰
-        required: true
-        schema:
-          type: string
-        example: accessabcdefghijklmnopqrstuvwxyz
+      description: "## 재발급 기능 \n### 사용법 \n- 재발급 시 새로운 엑세스 토큰을 헤더에 응답합니다.\n- 401이 뜬\
+        다면, 재로그인이 필요합니다.\n"
+      operationId: 재발급_2xx토큰_재발급_4xx_서버의_정보와_요청_재발급_토큰이_다른_경우토큰_재발급_4xx_재발급_토큰_쿠키가_전송되지_않음토큰_재발급_4xx_재발급_토큰이_서버에_존재하지_않은_경우
       responses:
-        "200":
-          description: "200"
-          headers:
-            Authorization:
-              description: 엑세스 토큰
-              schema:
-                type: string
+        "401":
+          description: "401"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/auths-reissue515442717"
+                $ref: "#/components/schemas/users-password486549215"
+              examples:
+                토큰_재발급_4xx_재발급_토큰_쿠키가_전송되지_않음:
+                  value: |-
+                    {
+                      "message" : "쿠키가 유효하지 않습니다.",
+                      "data" : null
+                    }
+                토큰_재발급_4xx_재발급_토큰이_서버에_존재하지_않은_경우:
+                  value: |-
+                    {
+                      "message" : "토큰이 유효하지 않습니다.",
+                      "data" : null
+                    }
+                토큰_재발급_4xx_서버의_정보와_요청_재발급_토큰이_다른_경우:
+                  value: |-
+                    {
+                      "message" : "토큰이 유효하지 않습니다.",
+                      "data" : null
+                    }
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users-password486549215"
               examples:
                 재발급_2xx:
                   value: |-
@@ -538,25 +563,6 @@ paths:
                     }
 components:
   schemas:
-    auths-reissue515442717:
-      required:
-      - data
-      - message
-      type: object
-      properties:
-        message:
-          type: string
-          description: 메세지
-    LoginResponseDto:
-      title: LoginResponseDto
-      required:
-      - data
-      - message
-      type: object
-      properties:
-        message:
-          type: string
-          description: 메세지
     ChangePassword:
       title: ChangePassword
       required:
@@ -570,9 +576,18 @@ components:
         newPassword:
           type: string
           description: 새로운 비밀번호입니다.
-    LoginRequestDto:
-      title: LoginRequestDto
+    auth-login134442792:
+      required:
+      - loginId
+      - password
       type: object
+      properties:
+        password:
+          type: string
+          description: 비밀번호는 특수문자를 포함한 영문과 숫자 8자리 이상입니다.
+        loginId:
+          type: string
+          description: 아이디는 영문 4자리 이상입니다.
     users-291555662:
       required:
       - email
