@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Boiler Plate API
   description: Boiler Plate API
-  version: 2025.11.30 18:21
+  version: 2025.11.30 18:36
 servers:
 - url: https://hosting-not-yet
 - url: http://localhost:8080
@@ -214,7 +214,7 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: "#/components/schemas/auth-password-find1454151090"
+              $ref: "#/components/schemas/RetrievePasswordRequest"
             examples:
               비밀번호_찾기_4xx_데이터에_해당하는_사용자가_없는_경우:
                 value: "{\"loginId\":\"test1\",\"email\":\"test1@gmail.com\"}"
@@ -892,6 +892,19 @@ components:
         name:
           type: string
           description: 사용자 이름입니다.
+    RetrievePasswordRequest:
+      title: RetrievePasswordRequest
+      required:
+      - email
+      - loginId
+      type: object
+      properties:
+        loginId:
+          type: string
+          description: 사용자의 아이디입니다.
+        email:
+          type: string
+          description: 사용자의 이메일입니다.
     UserProfileResponse:
       title: UserProfileResponse
       required:
@@ -920,18 +933,6 @@ components:
     ApiErrorResponse:
       title: ApiErrorResponse
       type: object
-    auth-password-find1454151090:
-      required:
-      - email
-      - loginId
-      type: object
-      properties:
-        loginId:
-          type: string
-          description: 사용자의 아이디입니다.
-        email:
-          type: string
-          description: 사용자의 이메일입니다.
     ApiResponse:
       title: ApiResponse
       type: object
