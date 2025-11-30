@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Boiler Plate API
   description: Boiler Plate API
-  version: 2025.11.29 09:14
+  version: 2025.11.30 07:09
 servers:
 - url: http://localhost:8080
 - url: https://hosting-not-yet
@@ -22,7 +22,7 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: "#/components/schemas/AuthenticateUser"
+              $ref: "#/components/schemas/AuthenticateUserRequest"
             examples:
               로그인_4xx_비밀번호가_올바르지_않음:
                 value: "{\"loginId\":\"test1\",\"password\":\"wrong1234@\"}"
@@ -169,7 +169,7 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: "#/components/schemas/FindLoginId"
+              $ref: "#/components/schemas/RetrieveLoginIdRequest"
             examples:
               아이디_찾기_4xx_이메일에_해당하는_사용자가_없는_경우:
                 value: "{\"email\":\"test1@gmail.com\"}"
@@ -259,7 +259,7 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: "#/components/schemas/ResetPassword"
+              $ref: "#/components/schemas/ResetPasswordRequest"
             examples:
               비밀번호_초기화_2xx:
                 value: "{\"token\":\"testToken\",\"password\":\"test1@1234\"}"
@@ -304,7 +304,7 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: "#/components/schemas/VerifyPasswordCode"
+              $ref: "#/components/schemas/VerifyPasswordCodeRequest"
             examples:
               인증번호_검증_2xx:
                 value: "{\"loginId\":\"test1\",\"code\":\"123456\"}"
@@ -316,7 +316,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PasswordCodeVerified"
+                $ref: "#/components/schemas/VerifyPasswordCodeResponse"
               examples:
                 인증번호_검증_2xx:
                   value: |-
@@ -425,7 +425,7 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: "#/components/schemas/UpdateUser"
+              $ref: "#/components/schemas/UpdateUserRequest"
             examples:
               회원_정보_업데이트_4xx_요청_데이터_유효성_검사_실패:
                 value: "{\"name\":\"\"}"
@@ -469,7 +469,7 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: "#/components/schemas/RegisterUser"
+              $ref: "#/components/schemas/RegisterUserRequest"
             examples:
               회원가입_4xx_요청_데이터_유효성_검사_실패:
                 value: "{\"loginId\":\"test1\",\"password\":\"1234\",\"email\":\"\
@@ -565,7 +565,7 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: "#/components/schemas/ChangePassword"
+              $ref: "#/components/schemas/ChangePasswordRequest"
             examples:
               비밀번호_업데이트_2xx:
                 value: "{\"password\":\"test1@1234\",\"newPassword\":\"newPassword1234@\"\
@@ -621,7 +621,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ProfileInfo"
+                $ref: "#/components/schemas/UserProfileResponse"
               examples:
                 프로필_조회_2xx:
                   value: |-
@@ -666,7 +666,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PublicProfileInfo"
+                $ref: "#/components/schemas/PublicUserProfileResponse"
               examples:
                 공개_프로필_조회_2xx:
                   value: |-
@@ -763,8 +763,51 @@ paths:
                     }
 components:
   schemas:
-    RegisterUser:
-      title: RegisterUser
+    ChangePasswordRequest:
+      title: ChangePasswordRequest
+      required:
+      - newPassword
+      - password
+      type: object
+      properties:
+        password:
+          type: string
+          description: 기존 비밀번호입니다.
+        newPassword:
+          type: string
+          description: 새로운 비밀번호입니다.
+    PublicUserProfileResponse:
+      title: PublicUserProfileResponse
+      required:
+      - message
+      type: object
+      properties:
+        data:
+          required:
+          - email
+          - name
+          type: object
+          properties:
+            name:
+              type: string
+              description: 사용자 이름입니다.
+            email:
+              type: string
+              description: 사용자 이메일입니다.
+        message:
+          type: string
+          description: 성공 응답 메세지입니다.
+    RetrieveLoginIdRequest:
+      title: RetrieveLoginIdRequest
+      required:
+      - email
+      type: object
+      properties:
+        email:
+          type: string
+          description: 아이디를 전송할 이메일입니다.
+    RegisterUserRequest:
+      title: RegisterUserRequest
       required:
       - email
       - loginId
@@ -784,8 +827,73 @@ components:
         email:
           type: string
           description: 이메일 형식을 지켜주세요.
-    ProfileInfo:
-      title: ProfileInfo
+    VerifyPasswordCodeRequest:
+      title: VerifyPasswordCodeRequest
+      required:
+      - code
+      - loginId
+      type: object
+      properties:
+        code:
+          type: string
+          description: 비밀번호 찾기를 통해 얻은 인증번호입니다.
+        loginId:
+          type: string
+          description: 사용자의 아이디입니다.
+    VerifyPasswordCodeResponse:
+      title: VerifyPasswordCodeResponse
+      required:
+      - message
+      type: object
+      properties:
+        data:
+          required:
+          - token
+          type: object
+          properties:
+            token:
+              type: string
+              description: 비밀번호 리셋을 위한 임시 토큰입니다.
+        message:
+          type: string
+          description: 성공 응답 메세지입니다.
+    AuthenticateUserRequest:
+      title: AuthenticateUserRequest
+      required:
+      - loginId
+      - password
+      type: object
+      properties:
+        password:
+          type: string
+          description: 비밀번호는 특수문자를 포함한 영문과 숫자 8자리 이상입니다.
+        loginId:
+          type: string
+          description: 아이디는 영문 4자리 이상입니다.
+    ResetPasswordRequest:
+      title: ResetPasswordRequest
+      required:
+      - password
+      - token
+      type: object
+      properties:
+        password:
+          type: string
+          description: 새로운 비밀번호 입니다.
+        token:
+          type: string
+          description: 인증번호로 얻은 임시 토큰입니다.
+    UpdateUserRequest:
+      title: UpdateUserRequest
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: 사용자 이름입니다.
+    UserProfileResponse:
+      title: UserProfileResponse
       required:
       - message
       type: object
@@ -809,114 +917,6 @@ components:
         message:
           type: string
           description: 성공 응답 메세지입니다.
-    AuthenticateUser:
-      title: AuthenticateUser
-      required:
-      - loginId
-      - password
-      type: object
-      properties:
-        password:
-          type: string
-          description: 비밀번호는 특수문자를 포함한 영문과 숫자 8자리 이상입니다.
-        loginId:
-          type: string
-          description: 아이디는 영문 4자리 이상입니다.
-    FindLoginId:
-      title: FindLoginId
-      required:
-      - email
-      type: object
-      properties:
-        email:
-          type: string
-          description: 아이디를 전송할 이메일입니다.
-    PublicProfileInfo:
-      title: PublicProfileInfo
-      required:
-      - message
-      type: object
-      properties:
-        data:
-          required:
-          - email
-          - name
-          type: object
-          properties:
-            name:
-              type: string
-              description: 사용자 이름입니다.
-            email:
-              type: string
-              description: 사용자 이메일입니다.
-        message:
-          type: string
-          description: 성공 응답 메세지입니다.
-    ChangePassword:
-      title: ChangePassword
-      required:
-      - newPassword
-      - password
-      type: object
-      properties:
-        password:
-          type: string
-          description: 기존 비밀번호입니다.
-        newPassword:
-          type: string
-          description: 새로운 비밀번호입니다.
-    VerifyPasswordCode:
-      title: VerifyPasswordCode
-      required:
-      - code
-      - loginId
-      type: object
-      properties:
-        code:
-          type: string
-          description: 비밀번호 찾기를 통해 얻은 인증번호입니다.
-        loginId:
-          type: string
-          description: 사용자의 아이디입니다.
-    PasswordCodeVerified:
-      title: PasswordCodeVerified
-      required:
-      - message
-      type: object
-      properties:
-        data:
-          required:
-          - token
-          type: object
-          properties:
-            token:
-              type: string
-              description: 비밀번호 리셋을 위한 임시 토큰입니다.
-        message:
-          type: string
-          description: 성공 응답 메세지입니다.
-    ResetPassword:
-      title: ResetPassword
-      required:
-      - password
-      - token
-      type: object
-      properties:
-        password:
-          type: string
-          description: 새로운 비밀번호 입니다.
-        token:
-          type: string
-          description: 인증번호로 얻은 임시 토큰입니다.
-    UpdateUser:
-      title: UpdateUser
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          type: string
-          description: 사용자 이름입니다.
     ApiErrorResponse:
       title: ApiErrorResponse
       type: object
