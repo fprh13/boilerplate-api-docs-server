@@ -2,10 +2,10 @@ openapi: 3.0.1
 info:
   title: Boiler Plate API
   description: Boiler Plate API
-  version: 2025.11.30 07:09
+  version: 2025.11.30 18:21
 servers:
-- url: http://localhost:8080
 - url: https://hosting-not-yet
+- url: http://localhost:8080
 tags: []
 paths:
   /auth/login:
